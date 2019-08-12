@@ -12,7 +12,7 @@
    OF ANY KIND, either express or implied. See the License for the
    specific language governing permissions and limitations under the
    License.
- */
+
 var express = require('express');
 var app = express();
 var path = require('path');
@@ -65,6 +65,35 @@ app.post('/', function(req, res) {
         console.log("Got comment: " + comment);
     }
     res.redirect("/#form-section");
+});
+
+var server = app.listen(process.env.PORT || 3000, function() {
+    console.log('Listening on %s', process.env.PORT);
+});
+*/
+
+var express = require('express');
+var app = express();
+var path = require('path');
+var os = require('os');
+var bodyParser = require('body-parser');
+var fs = require('fs');
+
+app.use(function log (req, res, next) {
+  console.log([req.method, req.url].join(' '));
+  next();
+});
+app.use(express.static('public'));
+app.use(bodyParser.urlencoded({ extended: false }))
+
+app.set('view engine', 'jade');
+
+app.get('/', function (req, res) {
+    res.send('<html><body><h1>Hello World Get</h1></body></html>');
+});
+
+app.post('/', function (req, res) {
+    res.send('<html><body><h1>Hello World Post</h1></body></html>');
 });
 
 var server = app.listen(process.env.PORT || 3000, function() {
